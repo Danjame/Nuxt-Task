@@ -32,7 +32,8 @@
 
 <script>
 export default {
-    name: 'editor'
+  middleware: 'authenticated',
+  name: 'editor'
 }
 </script>
 

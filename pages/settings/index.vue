@@ -37,7 +37,8 @@
 
 <script>
 export default {
-    name: 'settings'
+  middleware: 'authenticated',
+  name: 'settings'
 }
 </script>
 

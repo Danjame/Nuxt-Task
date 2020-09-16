@@ -52,11 +52,12 @@
 </template>
 
 <script>
-import { login, register } from "@/utils/request"
+import { login, register } from "@/utils/request";
 
-const Cookie = process.client ? require('js-cookie'): undefined
+const Cookie = process.client ? require("js-cookie") : undefined;
 
 export default {
+  middleware: "notauthenticated",
   name: "login",
   data() {
     return {
@@ -78,9 +79,9 @@ export default {
           : await register({
               user: this.user,
             });
-            this.$store.commit('setUser', data.user)
-            Cookie.set('user', data.user)
-            this.$router.push("/");
+        this.$store.commit("setUser", data.user);
+        Cookie.set("user", data.user);
+        this.$router.push("/");
       } catch (err) {
         this.errors = err.response.data.errors;
       }
