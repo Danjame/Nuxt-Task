@@ -16,7 +16,13 @@
         "_name": "_7228a2f5"
       },
       {
-        "path": "/profile",
+        "path": "/register",
+        "name": "register",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/login",
+        "_name": "_7228a2f5"
+      },
+      {
+        "path": "/profile/:username",
         "name": "profile",
         "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/profile",
         "_name": "_63b28a35"
@@ -34,7 +40,7 @@
         "_name": "_7340413e"
       },
       {
-        "path": "/article",
+        "path": "/article/:slug",
         "name": "article",
         "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/article",
         "_name": "_4a7ccd82"

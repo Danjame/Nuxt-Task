@@ -1,5 +1,6 @@
 module.exports = {
     router: {
+        linkActiveClass: 'active',
         extendRoutes(routes, resolve) {
             routes.splice(0)
             routes.push(
@@ -18,7 +19,12 @@ module.exports = {
                             component: resolve(__dirname, 'pages/login'),
                         },
                         {
-                            path:'/profile',
+                            path:'/register',
+                            name: 'register',
+                            component: resolve(__dirname, 'pages/login'),
+                        },
+                        {
+                            path:'/profile/:username',
                             name: 'profile',
                             component: resolve(__dirname, 'pages/profile'),
                         },
@@ -33,7 +39,7 @@ module.exports = {
                             component: resolve(__dirname, 'pages/editor'),
                         },
                         {
-                            path:'/article',
+                            path:'/article/:slug',
                             name: 'article',
                             component: resolve(__dirname, 'pages/article'),
                         }

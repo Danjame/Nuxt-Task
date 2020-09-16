@@ -23,7 +23,7 @@ Vue.use(Router)
 export const routerOptions = {
   mode: 'history',
   base: decodeURI('/'),
-  linkActiveClass: 'nuxt-link-active',
+  linkActiveClass: 'active',
   linkExactActiveClass: 'nuxt-link-exact-active',
   scrollBehavior,
 
@@ -39,7 +39,11 @@ export const routerOptions = {
       component: _7228a2f5,
       name: "login"
     }, {
-      path: "/profile",
+      path: "/register",
+      component: _7228a2f5,
+      name: "register"
+    }, {
+      path: "/profile/:username",
       component: _63b28a35,
       name: "profile"
     }, {
@@ -51,7 +55,7 @@ export const routerOptions = {
       component: _7340413e,
       name: "editor"
     }, {
-      path: "/article",
+      path: "/article/:slug",
       component: _4a7ccd82,
       name: "article"
     }]
