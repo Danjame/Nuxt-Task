@@ -1,0 +1,15 @@
+[
+  {
+    "path": "/",
+    "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/layout",
+    "children": [
+      {
+        "path": "",
+        "name": "home",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/home",
+        "_name": "_5e839fd3"
+      }
+    ],
+    "_name": "_5ba28dc4"
+  }
+]

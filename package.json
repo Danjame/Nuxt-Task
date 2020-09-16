@@ -1,0 +1,26 @@
+{
+  "name": "Nuxt-Task",
+  "version": "1.0.0",
+  "description": "fed-e-task-03-03",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "start": "nuxt start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danjame/Nuxt-Task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Danjame/Nuxt-Task/issues"
+  },
+  "homepage": "https://github.com/Danjame/Nuxt-Task#readme",
+  "dependencies": {
+    "nuxt": "^2.14.5"
+  }
+}
