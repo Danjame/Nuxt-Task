@@ -8,6 +8,36 @@
         "name": "home",
         "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/home",
         "_name": "_5e839fd3"
+      },
+      {
+        "path": "/login",
+        "name": "login",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/login",
+        "_name": "_7228a2f5"
+      },
+      {
+        "path": "/profile",
+        "name": "profile",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/profile",
+        "_name": "_63b28a35"
+      },
+      {
+        "path": "/settings",
+        "name": "settings",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/settings",
+        "_name": "_b84265d2"
+      },
+      {
+        "path": "/editor",
+        "name": "editor",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/editor",
+        "_name": "_7340413e"
+      },
+      {
+        "path": "/article",
+        "name": "article",
+        "component": "/Users/danjunxie/Desktop/myGit/Nuxt-Task/pages/article",
+        "_name": "_4a7ccd82"
       }
     ],
     "_name": "_5ba28dc4"
