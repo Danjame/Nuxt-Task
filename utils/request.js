@@ -4,6 +4,23 @@ const request = axios.create({
     baseURL: 'https://conduit.productionready.io'
 })
 
+export default (ctx) =>{
+    // Add a request interceptor
+request.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    
+    const { user } = ctx.store.state
+
+    if(user && user.token){
+        config.headers.Authorization = `Token ${user.token}`
+    }
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+}
+
 export const login = data =>{
     return request({
         method: 'POST',
@@ -32,5 +49,13 @@ export const getTags = () =>{
     return request({
      method: 'GET',
      url: '/api/tags',
+    })
+}
+
+export const getFeedArticles = params =>{
+    return request({
+     method: 'GET',
+     url: '/api/articles/feed',
+     params
     })
 }

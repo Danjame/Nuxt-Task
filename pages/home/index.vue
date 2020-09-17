@@ -12,12 +12,48 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-              <li class="nav-item">
-                <a class="nav-link disabled" href>Your Feed</a>
+
+              <li v-if="user" class="nav-item">
+                <nuxt-link
+                  class="nav-link"
+                  :class="{active: tab === 'your_feed'}"
+                  exact
+                  :to="{
+                    name: 'home',
+                    query: {
+                      tab: 'your_feed'
+                    }
+                  }"
+                >Your Feed
+                </nuxt-link>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link active" href>Global Feed</a>
+                <nuxt-link
+                  class="nav-link"
+                  :class="{active: tab === 'global_feed'}"
+                  exact
+                  :to="{
+                    name: 'home',
+                  }"
+                >Global Feed</nuxt-link>
               </li>
+
+              <li v-if="tag" class="nav-item">
+                <nuxt-link
+                  class="nav-link"
+                  :class="{active: tab === 'your_feed'}"
+                  exact
+                  :to="{
+                    name: 'home',
+                    query: {
+                      tab: 'tag',
+                      tag: tag
+                    }
+                  }"
+                ># {{tag}}</nuxt-link>
+              </li>
+
             </ul>
           </div>
 
@@ -31,7 +67,7 @@
                   class="author"
                   :to="`/profile/${article.author.username}`"
                 >{{ article.author.username }}</nuxt-link>
-                <span class="date">{{ article.createdAt }}</span>
+                <span class="date">{{ article.createdAt | date('MMM DD, YYYY')}}</span>
               </div>
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
@@ -70,7 +106,10 @@
               v-for="item in totalPage"
               :key="item"
             >
-              <nuxt-link class="page-link" :to="{name: 'home', query:{page:item, tag: $route.query.tag}}">{{item}}</nuxt-link>
+              <nuxt-link
+                class="page-link"
+                :to="{name: 'home', query:{page:item, tag: $route.query.tag}}"
+              >{{item}}</nuxt-link>
             </li>
           </ul>
         </nav>
@@ -84,15 +123,14 @@
                 :to="{
                   name: 'home',
                   query:{
-                    tag: item
+                    tag: item,
+                    tab:'tag'
                   }
                 }"
                 class="tag-pill tag-default"
                 v-for="item in tags"
                 :key="item"
-              >
-              {{ item }}
-              </nuxt-link>
+              >{{ item }}</nuxt-link>
             </div>
           </div>
         </div>
@@ -102,30 +140,40 @@
 </template>
 
 <script>
-import { getArticles, getTags } from "@/utils/request";
+import { getArticles, getTags, getFeedArticles } from "@/utils/request";
+import { mapState } from "vuex";
 export default {
   name: "home",
   async asyncData({ query }) {
     const page = Number.parseInt(query.page || 1);
     const limit = 20;
-    const res = await Promise.all([getArticles({
-      limit,
-      offset: (page - 1) * limit,
-      tag: query.tag
-    }), await getTags()])
-    
-    const {articles, articlesCount} = res[0].data
-    const { tags } = res[1].data
+    const tab = query.tab || "global_feed";
+    const tag = query.tag;
+    const loadArticles = tab === 'global_feed'? getArticles: getFeedArticles
+    const res = await Promise.all([
+      loadArticles({
+        limit,
+        offset: (page - 1) * limit,
+        tag,
+      }),
+      await getTags(),
+    ]);
+
+    const { articles, articlesCount } = res[0].data;
+    const { tags } = res[1].data;
     return {
       limit,
       page,
       articlesCount,
       articles,
-      tags
+      tags,
+      tag,
+      tab,
     };
   },
-  watchQuery: ["page", "tag"],
+  watchQuery: ["page", "tag", "tab"],
   computed: {
+    ...mapState(["user"]),
     totalPage() {
       return Math.ceil(this.articlesCount / this.limit);
     },

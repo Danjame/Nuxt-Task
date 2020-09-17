@@ -47,5 +47,9 @@ module.exports = {
                 }
             )
           }
-    }
+    },
+    plugins: [
+        '~/utils/request.js',
+        '~/plugins/dayjs.js'
+    ]
 }

@@ -13,6 +13,9 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
+import nuxt_plugin_request_1d752de6 from 'nuxt_plugin_request_1d752de6' // Source: ../utils/request.js (mode: 'all')
+import nuxt_plugin_dayjs_66ce5f68 from 'nuxt_plugin_dayjs_66ce5f68' // Source: ../plugins/dayjs.js (mode: 'all')
+
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
 
@@ -192,6 +195,14 @@ async function createApp(ssrContext, config = {}) {
     }
   }
   // Plugin execution
+
+  if (typeof nuxt_plugin_request_1d752de6 === 'function') {
+    await nuxt_plugin_request_1d752de6(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_dayjs_66ce5f68 === 'function') {
+    await nuxt_plugin_dayjs_66ce5f68(app.context, inject)
+  }
 
   // Lock enablePreview in context
   if (process.static && process.client) {
