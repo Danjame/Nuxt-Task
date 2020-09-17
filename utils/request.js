@@ -19,3 +19,18 @@ export const register = data =>{
         data
     })
 }
+
+export const getArticles = params =>{
+    return request({
+     method: 'GET',
+     url: '/api/articles',
+     params
+    })
+}
+
+export const getTags = () =>{
+    return request({
+     method: 'GET',
+     url: '/api/tags',
+    })
+}
