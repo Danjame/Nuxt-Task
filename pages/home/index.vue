@@ -12,7 +12,6 @@
         <div class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-
               <li v-if="user" class="nav-item">
                 <nuxt-link
                   class="nav-link"
@@ -24,8 +23,7 @@
                       tab: 'your_feed'
                     }
                   }"
-                >Your Feed
-                </nuxt-link>
+                >Your Feed</nuxt-link>
               </li>
 
               <li class="nav-item">
@@ -53,7 +51,6 @@
                   }"
                 ># {{tag}}</nuxt-link>
               </li>
-
             </ul>
           </div>
 
@@ -72,6 +69,8 @@
               <button
                 class="btn btn-outline-primary btn-sm pull-xs-right"
                 :class="{ active: article.favorited }"
+                @click="favoriteHandler(article)"
+                :disabled="article.favoriteDisabled"
               >
                 <i class="ion-heart"></i>
                 {{ article.favoritesCount }}
@@ -140,7 +139,13 @@
 </template>
 
 <script>
-import { getArticles, getTags, getFeedArticles } from "@/utils/request";
+import {
+  getArticles,
+  getTags,
+  getFeedArticles,
+  addFavorite,
+  deleteFavorite
+} from "@/utils/request";
 import { mapState } from "vuex";
 export default {
   name: "home",
@@ -149,7 +154,7 @@ export default {
     const limit = 20;
     const tab = query.tab || "global_feed";
     const tag = query.tag;
-    const loadArticles = tab === 'global_feed'? getArticles: getFeedArticles
+    const loadArticles = tab === "global_feed" ? getArticles : getFeedArticles;
     const res = await Promise.all([
       loadArticles({
         limit,
@@ -160,6 +165,10 @@ export default {
     ]);
 
     const { articles, articlesCount } = res[0].data;
+    articles.forEach(item => {
+      item.favoriteDisabled = false
+    });
+    
     const { tags } = res[1].data;
     return {
       limit,
@@ -176,6 +185,21 @@ export default {
     ...mapState(["user"]),
     totalPage() {
       return Math.ceil(this.articlesCount / this.limit);
+    },
+  },
+  methods: {
+    async favoriteHandler(article) {
+      article.favoriteDisabled = true;
+      if (article.favorited) {
+        await deleteFavorite(article.slug);
+        article.favorited = false;
+        article.favoritesCount -= 1;
+      } else {
+        await addFavorite(article.slug);
+        article.favorited = true;
+        article.favoritesCount += 1;
+      }
+      article.favoriteDisabled = false;
     },
   },
 };
