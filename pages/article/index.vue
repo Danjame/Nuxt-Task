@@ -23,28 +23,22 @@
         <div class="col-xs-12 col-md-8 offset-md-2">
           <form class="card comment-form">
             <div class="card-block">
-              <textarea 
-                class="form-control" 
-                placeholder="Write a comment..." 
+              <textarea
+                class="form-control"
+                placeholder="Write a comment..."
                 rows="3"
                 v-model="comment.body"
               ></textarea>
             </div>
             <div class="card-footer">
               <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-              <button 
-                class="btn btn-sm btn-primary"
-                @click="submit(comment, article.slug)"
-              >Post Comment</button>
+              <button class="btn btn-sm btn-primary" @click="submit">Post Comment</button>
             </div>
           </form>
 
           <div v-for="(comment, index) in comments" :key="index" class="card">
             <div class="card-block">
-              <p
-                class="card-text"
-              >{{comment.body}}
-              </p>
+              <p class="card-text">{{comment.body}}</p>
             </div>
             <div class="card-footer">
               <a href class="comment-author">
@@ -55,7 +49,6 @@
               <span class="date-posted">{{ comment.createdAt | date('MMM DD, YYYY')}}</span>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -67,44 +60,41 @@ import { getArticle, getComments, addComment } from "@/utils/request";
 import ArticleMeta from "./components/article-meta";
 import markdownIt from "markdown-it";
 export default {
-  name: 'articleIndex',
+  name: "articleIndex",
   components: {
     ArticleMeta,
   },
   data() {
     return {
-      comment:{
-        body:""
-      }
-    }
+      comment: {
+        body: "",
+      },
+    };
   },
-  async asyncData({params}) {
+  async asyncData({ params }) {
     const [articleData, commentsData] = await Promise.all([
       getArticle(params.slug),
-      getComments(params.slug)
-    ])
-    const { article } = articleData.data
-    const { comments } = commentsData.data
-    console.log(comments);
+      getComments(params.slug),
+    ]);
+    const { article } = articleData.data;
+    const { comments } = commentsData.data;
     const md = new markdownIt();
     article.body = md.render(article.body);
     return {
       article,
-      comments
-    }
+      comments,
+    };
   },
   methods: {
-    async submit(comment, slug) {
+    async submit() {
       try {
-        console.log(123);
-        const res = await addComment(comment, slug);
-        console.log(res);
+        addComment(this.comment, this.article.slug);
       } catch (err) {
-        
+        throw new Error("fail");
       }
     },
   },
-}
+};
 </script>
 
 <style>

@@ -56,13 +56,16 @@
 
           <div class="article-preview" v-for="article in articles" :key="article.slug">
             <div class="article-meta">
-              <nuxt-link class="author" :to="`/profile/${article.author.username}`">
+              <nuxt-link
+                class="author"
+                :to="{name:'profile', params:{username: article.author.username}}"
+              >
                 <img :src="article.author.image" />
               </nuxt-link>
               <div class="info">
                 <nuxt-link
                   class="author"
-                  :to="`/profile/${article.author.username}`"
+                  :to="{name:'profile', params:{username: article.author.username}}"
                 >{{ article.author.username }}</nuxt-link>
                 <span class="date">{{ article.createdAt | date('MMM DD, YYYY')}}</span>
               </div>

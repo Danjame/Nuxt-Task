@@ -1,27 +1,28 @@
 import axios from 'axios'
+import { get } from 'js-cookie';
 
 const request = axios.create({
     baseURL: 'https://conduit.productionready.io'
 })
 
-export default (ctx) =>{
+export default (ctx) => {
     // Add a request interceptor
-request.interceptors.request.use(function (config) {
-    // Do something before request is sent
-    
-    const { user } = ctx.store.state
+    request.interceptors.request.use(function (config) {
+        // Do something before request is sent
 
-    if(user && user.token){
-        config.headers.Authorization = `Token ${user.token}`
-    }
-    return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
+        const { user } = ctx.store.state
+
+        if (user && user.token) {
+            config.headers.Authorization = `Token ${user.token}`
+        }
+        return config;
+    }, function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    });
 }
 
-export const login = data =>{
+export const login = data => {
     return request({
         method: 'POST',
         url: '/api/users/login',
@@ -29,7 +30,7 @@ export const login = data =>{
     })
 }
 
-export const register = data =>{
+export const register = data => {
     return request({
         method: 'POST',
         url: '/api/users',
@@ -37,65 +38,65 @@ export const register = data =>{
     })
 }
 
-export const getArticles = params =>{
+export const getArticles = params => {
     return request({
-     method: 'GET',
-     url: '/api/articles',
-     params
+        method: 'GET',
+        url: '/api/articles',
+        params
     })
 }
 
-export const getTags = () =>{
+export const getTags = () => {
     return request({
-     method: 'GET',
-     url: '/api/tags',
+        method: 'GET',
+        url: '/api/tags',
     })
 }
 
-export const getFeedArticles = params =>{
+export const getFeedArticles = params => {
     return request({
-     method: 'GET',
-     url: '/api/articles/feed',
-     params
+        method: 'GET',
+        url: '/api/articles/feed',
+        params
     })
 }
 
-export const addFavorite = slug =>{
+export const addFavorite = slug => {
     return request({
-     method: 'POST',
-     url: `/api/articles/${slug}/favorite`
+        method: 'POST',
+        url: `/api/articles/${slug}/favorite`
     })
 }
 
-export const deleteFavorite = slug =>{
+export const deleteFavorite = slug => {
     return request({
-     method: 'DELETE',
-     url: `/api/articles/${slug}/favorite`
+        method: 'DELETE',
+        url: `/api/articles/${slug}/favorite`
     })
 }
 
-export const getArticle = slug =>{
+export const getArticle = slug => {
     return request({
         method: 'GET',
         url: `/api/articles/${slug}`
     })
 }
 
-export const follow = username =>{
+export const follow = username => {
     return request({
         method: 'POST',
         url: `/api/profiles/${username}/follow`
     })
 }
 
-export const unfollow = username =>{
+export const unfollow = username => {
     return request({
         method: 'DELETE',
         url: `/api/profiles/${username}/follow`
     })
 }
 
-export const getComments = slug =>{
+export const getComments = slug => {
     return request({
         method: 'GET',
         url: `/api/articles/${slug}/comments`
@@ -106,7 +107,21 @@ export const addComment = (comment, slug) => {
     return request({
         method: 'POST',
         url: `/api/articles/${slug}/comments`,
-        comment
+        data: comment
     })
 }
 
+export const addArticles = article => {
+    return request({
+        method: 'POST',
+        url: '/api/articles',
+        data: article
+    })
+}
+
+export const getProfile = username => {
+    return request({
+        method: 'GET',
+        url: `/api/profiles/${username}`,
+    })
+}

@@ -18,6 +18,7 @@
           <form @submit.prevent="submit">
             <fieldset class="form-group" v-if="!isLogin">
               <input
+                v-model="user.username"
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Your Name"
