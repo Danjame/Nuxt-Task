@@ -80,3 +80,33 @@ export const getArticle = slug =>{
         url: `/api/articles/${slug}`
     })
 }
+
+export const follow = username =>{
+    return request({
+        method: 'POST',
+        url: `/api/profiles/${username}/follow`
+    })
+}
+
+export const unfollow = username =>{
+    return request({
+        method: 'DELETE',
+        url: `/api/profiles/${username}/follow`
+    })
+}
+
+export const getComments = slug =>{
+    return request({
+        method: 'GET',
+        url: `/api/articles/${slug}/comments`
+    })
+}
+
+export const addComment = (comment, slug) => {
+    return request({
+        method: 'POST',
+        url: `/api/articles/${slug}/comments`,
+        comment
+    })
+}
+

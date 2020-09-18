@@ -40,7 +40,7 @@
               <li v-if="tag" class="nav-item">
                 <nuxt-link
                   class="nav-link"
-                  :class="{active: tab === 'your_feed'}"
+                  :class="{active: tab === 'tag'}"
                   exact
                   :to="{
                     name: 'home',
@@ -95,28 +95,9 @@
           </div>
         </div>
 
-        <nav>
-          <ul class="pagination">
-            <li
-              class="page-item"
-              :class="{
-                active: item === page
-              }"
-              v-for="item in totalPage"
-              :key="item"
-            >
-              <nuxt-link
-                class="page-link"
-                :to="{name: 'home', query:{page:item, tag: $route.query.tag}}"
-              >{{item}}</nuxt-link>
-            </li>
-          </ul>
-        </nav>
-
         <div class="col-md-3">
           <div class="sidebar">
             <p>Popular Tags</p>
-
             <div class="tag-list">
               <nuxt-link
                 :to="{
@@ -133,6 +114,30 @@
             </div>
           </div>
         </div>
+
+        <nav>
+          <ul class="pagination">
+            <li
+              class="page-item"
+              :class="{
+                active: item === page
+              }"
+              v-for="item in totalPage"
+              :key="item"
+            >
+              <nuxt-link
+                class="page-link"
+                :to="{
+                  name: 'home',
+                  query: {
+                    page:item,
+                    tag: $route.query.tag
+                  }
+                }"
+              >{{item}}</nuxt-link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
@@ -144,7 +149,7 @@ import {
   getTags,
   getFeedArticles,
   addFavorite,
-  deleteFavorite
+  deleteFavorite,
 } from "@/utils/request";
 import { mapState } from "vuex";
 export default {
@@ -154,21 +159,25 @@ export default {
     const limit = 20;
     const tab = query.tab || "global_feed";
     const tag = query.tag;
-    const loadArticles = tab === "global_feed" ? getArticles : getFeedArticles;
+
+    const loadArticles =
+      tab == "global_feed" || "tag" ? getArticles : getFeedArticles;
+
     const res = await Promise.all([
       loadArticles({
         limit,
         offset: (page - 1) * limit,
         tag,
       }),
-      await getTags(),
+      getTags(),
     ]);
 
     const { articles, articlesCount } = res[0].data;
-    articles.forEach(item => {
-      item.favoriteDisabled = false
+
+    articles.forEach((item) => {
+      item.favoriteDisabled = false;
     });
-    
+
     const { tags } = res[1].data;
     return {
       limit,
