@@ -1,8 +1,4 @@
 module.exports = {
-    server:{
-        host: "0.0.0.0",
-        port: 80
-    },
     router: {
         linkActiveClass: 'active',
         extendRoutes(routes, resolve) {
@@ -55,5 +51,9 @@ module.exports = {
     plugins: [
         '~/utils/request.js',
         '~/plugins/dayjs.js'
-    ]
+    ],
+    server:{
+        host: "0.0.0.0",
+        port: 3000
+    },
 }
